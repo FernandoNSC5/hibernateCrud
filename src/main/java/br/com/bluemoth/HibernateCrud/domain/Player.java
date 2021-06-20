@@ -24,8 +24,19 @@ public class Player {
     @NotNull
     private String nickname;
 
+    @ManyToOne
+    @JoinColumn(name="gameId", nullable=false)
+    private Game gameId;
+
     public Player()
     {}
+
+    public Player (String pName, String pNickName, Game pGame)
+    {
+        this.name = pName;
+        this.nickname = pNickName;
+        this.gameId = pGame;
+    }
 
     public Player(String pName, String pNickname)
     {
@@ -55,5 +66,15 @@ public class Player {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setGame(Game pGameId)
+    {
+        this.gameId = pGameId;
+    }
+
+    public Game getGame()
+    {
+        return gameId;
     }
 }

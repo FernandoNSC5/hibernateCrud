@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bluemoth.HibernateCrud.domain.Player;
+import br.com.bluemoth.HibernateCrud.gateway.dto.GameDTO;
 import br.com.bluemoth.HibernateCrud.gateway.dto.PlayerDTO;
 import br.com.bluemoth.HibernateCrud.service.CreateCrudService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,11 +37,10 @@ public class PlayerResource
     {
         List<PlayerDTO> playerDTOs = new ArrayList<>();
 
-        createCrudService.findAllPlayers().forEach(player -> playerDTOs.add(
-                new PlayerDTO(player.getPlayerId(),
-                        player.getName(),
-                        player.getNickname()
-                        )));
+        createCrudService.findAllPlayers().forEach(player -> {
+            GameDTO gameDTO = new GameDTO(player.getGame().getGameId(), player.getGame().getName(), player.getGame().getBaseAge());
+            playerDTOs.add(new PlayerDTO(player.getPlayerId(), player.getName(), player.getNickname(), gameDTO));
+        });
 
         return playerDTOs;
     }
